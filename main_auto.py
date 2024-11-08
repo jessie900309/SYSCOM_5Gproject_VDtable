@@ -6,13 +6,16 @@ import pandas as pd
 
 input_data = "example_VD_OpenData.xlsx"
 
+
 def main_auto():
     try:
         print(welcome)
         start_day = input("請輸入起始日 : ")
         while True:
             try:
-                if start_day != datetime.datetime.strptime(start_day, "%Y-%m-%d").strftime("%Y-%m-%d"):
+                if start_day != datetime.datetime.strptime(
+                    start_day, "%Y-%m-%d"
+                ).strftime("%Y-%m-%d"):
                     raise ValueError
                 else:
                     break
@@ -20,7 +23,10 @@ def main_auto():
                 start_day = input("你輸入的日期格式有誤OHO\n請重新輸入日期 : ")
         date_list = []
         for i in range(15):
-            nextDate = (datetime.datetime.strptime(start_day, "%Y-%m-%d") + datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+            nextDate = (
+                datetime.datetime.strptime(start_day, "%Y-%m-%d")
+                + datetime.timedelta(days=i)
+            ).strftime("%Y-%m-%d")
             date_list.append(nextDate)
         conn, cur = sqlConnect()
         ws, wb = openExcelFile(input_data)
@@ -28,7 +34,10 @@ def main_auto():
             for i in range(15):
                 day = date_list[i]
                 for j in range(24):
-                    print("\nnow select ... {} {} {} ".format(vd_id[x], day, time_st[j]), end='')
+                    print(
+                        "\nnow select ... {} {} {} ".format(vd_id[x], day, time_st[j]),
+                        end="",
+                    )
                     set_vdid = "SET @vdid = '{}';".format(vd_id[x])
                     cur.execute(set_vdid)
                     set_linkid = "SET @linkid = '{}';".format(link_id[x])
@@ -43,7 +52,7 @@ def main_auto():
                     df = pd.DataFrame(fetch_data)
                     # write data
                     if df.empty:
-                        print("查無資料", end='')
+                        print("查無資料", end="")
                         pass
                     else:
                         # sum
@@ -63,7 +72,5 @@ def main_auto():
         catchError(e)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main_auto()
-
-

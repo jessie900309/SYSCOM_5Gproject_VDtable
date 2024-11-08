@@ -10,7 +10,7 @@ def catchError(e):
     lastCallStack = traceback.extract_tb(tb)
     fileName = lastCallStack[0]
     # lineNum = lastCallStack[1]
-    errMsg = "File \"{}\", \n [{}] {}\n".format(fileName, error_class, detail)
+    errMsg = 'File "{}", \n [{}] {}\n'.format(fileName, error_class, detail)
     print(errMsg)
     sys.exit(1)
 
@@ -20,5 +20,3 @@ def openExcelFile(op):
     wb.active = 0
     ws = wb.active
     return ws, wb
-
-

@@ -8,20 +8,29 @@ date_mon = 9
 date_day = range(1, 16)
 
 conn, cur = sqlConnect()
-ws, wb = openExcelFile('VD資料統計_20220901_20220915.xlsx')
+ws, wb = openExcelFile("VD資料統計_20220901_20220915.xlsx")
 
 for x in range(3):
     for i in range(15):
         day = date_day[i]
         for j in range(24):
-            print("\nnow select ... {} 2022-{:02d}-{:02d} {}' ".format(vd_id[x], date_mon, day, time_st[j]), end='')
+            print(
+                "\nnow select ... {} 2022-{:02d}-{:02d} {}' ".format(
+                    vd_id[x], date_mon, day, time_st[j]
+                ),
+                end="",
+            )
             set_vdid = "SET @vdid = '{}';".format(vd_id[x])
             cur.execute(set_vdid)
             set_linkid = "SET @linkid = '{}';".format(link_id[x])
             cur.execute(set_linkid)
-            setTime_st = "SET @TS ='2022-{:02d}-{:02d} {}' ;".format(date_mon, day, time_st[j])
+            setTime_st = "SET @TS ='2022-{:02d}-{:02d} {}' ;".format(
+                date_mon, day, time_st[j]
+            )
             cur.execute(setTime_st)
-            setTime_ed = "SET @TE ='2022-{:02d}-{:02d} {}' ;".format(date_mon, day, time_ed[j])
+            setTime_ed = "SET @TE ='2022-{:02d}-{:02d} {}' ;".format(
+                date_mon, day, time_ed[j]
+            )
             cur.execute(setTime_ed)
             # main
             cur.execute(OuO)
@@ -29,7 +38,7 @@ for x in range(3):
             df = pd.DataFrame(fetch_data)
             # write data
             if df.empty:
-                print("查無資料", end='')
+                print("查無資料", end="")
                 pass
             else:
                 # sum
